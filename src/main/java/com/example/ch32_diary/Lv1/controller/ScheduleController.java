@@ -19,7 +19,7 @@ public class ScheduleController {
 
     private final ScheduleService scheduleService;
 
-    @PostMapping("/new")
+    @PostMapping
     public ResponseEntity<ScheduleResponseDto> save(@RequestBody CreateScheduleRequestDto requestDto) {
 
         ScheduleResponseDto responseDto =
