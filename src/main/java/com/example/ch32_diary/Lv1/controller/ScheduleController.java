@@ -28,4 +28,9 @@ public class ScheduleController {
         return new ResponseEntity<>(responseDto, HttpStatus.CREATED);
     }
 
+    @GetMapping
+    public ResponseEntity<List<ScheduleResponseDto>> findAll(){
+        return new ResponseEntity<>(scheduleService.findAll(), HttpStatus.OK);
+    }
+
 }

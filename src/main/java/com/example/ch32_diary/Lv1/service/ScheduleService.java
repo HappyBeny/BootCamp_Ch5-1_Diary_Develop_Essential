@@ -30,4 +30,12 @@ public class ScheduleService {
                 savedSchedule.getDescription()
         );
     }
+
+    public List<ScheduleResponseDto> findAll() {
+
+        return scheduleRepository.findAll()
+                .stream()
+                .map(ScheduleResponseDto::toDto)
+                .toList();
+    }
 }
