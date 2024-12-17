@@ -15,7 +15,7 @@ public class Schedule extends BaseEntity{
     private Long id;
 
     @Column(nullable = false)
-    private String writer;
+    private Long memberId;
 
     @Column(nullable = false)
     private String schedule;
@@ -26,8 +26,8 @@ public class Schedule extends BaseEntity{
     public Schedule() {
     }
 
-    public Schedule(String writer, String schedule, String description) {
-        this.writer = writer;
+    public Schedule(Long memberId, String schedule, String description) {
+        this.memberId = memberId;
         this.schedule = schedule;
         this.description = description;
     }
