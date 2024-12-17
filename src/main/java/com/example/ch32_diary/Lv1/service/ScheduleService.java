@@ -16,12 +16,13 @@ public class ScheduleService {
     private final ScheduleRepository scheduleRepository;
 
     public ScheduleResponseDto create(CreateScheduleRequestDto requestDto) {
-        Schedule newSchedule = new Schedule(
-                requestDto.getWriter(),
-                requestDto.getSchedule(),
-                requestDto.getDescription() != null ? requestDto.getDescription() : ""
+
+        Schedule savedSchedule = scheduleRepository.save(
+                new Schedule(
+                        requestDto.getWriter(),
+                        requestDto.getSchedule(),
+                        requestDto.getDescription() != null ? requestDto.getDescription() : "")
         );
-        Schedule savedSchedule = scheduleRepository.save(newSchedule);
 
         return new ScheduleResponseDto(
                 savedSchedule.getId(),
