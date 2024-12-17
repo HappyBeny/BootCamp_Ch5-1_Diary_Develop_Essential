@@ -6,9 +6,7 @@ import com.example.ch3_2_diary.service.MemberService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/members")
@@ -23,5 +21,13 @@ public class MemberController {
         MemberResponseDto newMember = memberService.signUp(requestDto);
 
         return new ResponseEntity<>(newMember, HttpStatus.CREATED);
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<MemberResponseDto> findById(@PathVariable Long id) {
+
+        MemberResponseDto responseDto = memberService.findById(id);
+
+        return new ResponseEntity<>(responseDto, HttpStatus.OK);
     }
 }

@@ -22,4 +22,11 @@ public class MemberService {
 
         return new MemberResponseDto(savedMember.getId(), savedMember.getUsername(), savedMember.getEmail());
     }
+
+    public MemberResponseDto findById(Long id) {
+
+        Member member = memberRepository.findByIdOrElseThrow(id);
+
+        return new MemberResponseDto(member.getId(), member.getUsername(), member.getEmail());
+    }
 }
