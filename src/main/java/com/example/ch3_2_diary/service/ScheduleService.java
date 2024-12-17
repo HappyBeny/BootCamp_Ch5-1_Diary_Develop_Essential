@@ -1,9 +1,9 @@
-package com.example.ch32_diary.Lv2.service;
+package com.example.ch3_2_diary.service;
 
-import com.example.ch32_diary.Lv2.dto.CreateScheduleRequestDto;
-import com.example.ch32_diary.Lv2.dto.ScheduleResponseDto;
-import com.example.ch32_diary.Lv2.entity.Schedule;
-import com.example.ch32_diary.Lv2.repository.ScheduleRepository;
+import com.example.ch3_2_diary.dto.CreateScheduleRequestDto;
+import com.example.ch3_2_diary.dto.ScheduleResponseDto;
+import com.example.ch3_2_diary.entity.Schedule;
+import com.example.ch3_2_diary.repository.ScheduleRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;

@@ -1,6 +1,6 @@
-package com.example.ch32_diary.Lv2.dto;
+package com.example.ch3_2_diary.dto;
 
-import com.example.ch32_diary.Lv2.entity.Schedule;
+import com.example.ch3_2_diary.entity.Schedule;
 import lombok.Getter;
 
 @Getter

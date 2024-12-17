@@ -1,8 +1,8 @@
-package com.example.ch32_diary.Lv2.controller;
+package com.example.ch3_2_diary.controller;
 
-import com.example.ch32_diary.Lv2.dto.CreateScheduleRequestDto;
-import com.example.ch32_diary.Lv2.dto.ScheduleResponseDto;
-import com.example.ch32_diary.Lv2.service.ScheduleService;
+import com.example.ch3_2_diary.dto.CreateScheduleRequestDto;
+import com.example.ch3_2_diary.dto.ScheduleResponseDto;
+import com.example.ch3_2_diary.service.ScheduleService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
@@ -12,10 +12,10 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @Slf4j
-@RestController("scheduleControllerV2")
-@RequestMapping("/v2/schedules")
+@RestController
+@RequestMapping("/schedules")
 @RequiredArgsConstructor
-public class ScheduleControllerLv2 {
+public class ScheduleController {
 
     private final ScheduleService scheduleService;
 

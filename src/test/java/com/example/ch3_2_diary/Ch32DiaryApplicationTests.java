@@ -1,4 +1,4 @@
-package com.example.ch32_diary;
+package com.example.ch3_2_diary;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;

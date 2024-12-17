@@ -1,4 +1,4 @@
-package com.example.ch32_diary.Lv2.dto;
+package com.example.ch3_2_diary.dto;
 
 import lombok.Getter;
 
