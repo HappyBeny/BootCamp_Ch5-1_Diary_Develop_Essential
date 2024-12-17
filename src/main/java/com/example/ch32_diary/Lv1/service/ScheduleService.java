@@ -49,4 +49,21 @@ public class ScheduleService {
                 foundSchedule.getSchedule(),
                 foundSchedule.getDescription());
     }
+
+    public ScheduleResponseDto update(Long id, CreateScheduleRequestDto requestDto){
+        Schedule foundSchedule = scheduleRepository.findByIdOrElseThrow(id);
+
+        foundSchedule.setWriter(requestDto.getWriter());
+        foundSchedule.setSchedule(requestDto.getSchedule());
+        foundSchedule.setDescription(requestDto.getDescription());
+
+        Schedule updatedSchedule = scheduleRepository.save(foundSchedule);
+
+        return new ScheduleResponseDto(
+                updatedSchedule.getId(),
+                updatedSchedule.getWriter(),
+                updatedSchedule.getSchedule(),
+                updatedSchedule.getDescription()
+        );
+    }
 }
