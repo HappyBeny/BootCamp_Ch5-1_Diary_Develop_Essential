@@ -29,4 +29,19 @@ public class MemberService {
 
         return new MemberResponseDto(member.getId(), member.getUsername(), member.getEmail());
     }
+
+    public MemberResponseDto updateUsername(Long id, CreateMemberRequestDto requestDto) {
+        Member foundMember = memberRepository.findByIdOrElseThrow(id);
+
+        foundMember.setUsername(requestDto.getUsername());
+        foundMember.setEmail(requestDto.getEmail());
+
+        Member updatedMember = memberRepository.save(foundMember);
+
+        return new MemberResponseDto(
+                updatedMember.getId(),
+                updatedMember.getUsername(),
+                updatedMember.getEmail()
+        );
+    }
 }

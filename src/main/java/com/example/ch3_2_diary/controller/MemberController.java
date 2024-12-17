@@ -30,4 +30,14 @@ public class MemberController {
 
         return new ResponseEntity<>(responseDto, HttpStatus.OK);
     }
+
+    @PatchMapping("/{id}")
+    public ResponseEntity<MemberResponseDto> updateUsername(
+            @PathVariable Long id,
+            @RequestBody CreateMemberRequestDto requestDto
+    ) {
+        MemberResponseDto responseDto = memberService.updateUsername(id, requestDto);
+
+        return new ResponseEntity<>(responseDto, HttpStatus.OK);
+    }
 }
