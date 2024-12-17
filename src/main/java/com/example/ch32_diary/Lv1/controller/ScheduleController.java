@@ -29,7 +29,7 @@ public class ScheduleController {
     }
 
     @GetMapping
-    public ResponseEntity<List<ScheduleResponseDto>> findAll(){
+    public ResponseEntity<List<ScheduleResponseDto>> findAll() {
         return new ResponseEntity<>(scheduleService.findAll(), HttpStatus.OK);
     }
 
@@ -50,4 +50,10 @@ public class ScheduleController {
         return new ResponseEntity<>(responseDto, HttpStatus.OK);
     }
 
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> deleteSchedule(@PathVariable Long id) {
+        scheduleService.delete(id);
+
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
 }

@@ -5,10 +5,12 @@ import com.example.ch32_diary.Lv1.dto.ScheduleResponseDto;
 import com.example.ch32_diary.Lv1.entity.Schedule;
 import com.example.ch32_diary.Lv1.repository.ScheduleRepository;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
+@Slf4j
 @Service
 @RequiredArgsConstructor
 public class ScheduleService {
@@ -41,6 +43,8 @@ public class ScheduleService {
     }
 
     public ScheduleResponseDto findById(Long id) {
+        log.info("finding schedule with id : {}", id);
+
         Schedule foundSchedule = scheduleRepository.findByIdOrElseThrow(id);
 
         return new ScheduleResponseDto(
@@ -51,6 +55,8 @@ public class ScheduleService {
     }
 
     public ScheduleResponseDto update(Long id, CreateScheduleRequestDto requestDto){
+        log.info("finding schedule with id : {}", id);
+
         Schedule foundSchedule = scheduleRepository.findByIdOrElseThrow(id);
 
         foundSchedule.setWriter(requestDto.getWriter());
@@ -65,5 +71,12 @@ public class ScheduleService {
                 updatedSchedule.getSchedule(),
                 updatedSchedule.getDescription()
         );
+    }
+
+    public void delete(Long id) {
+        log.info("finding schedule with id : {}", id);
+
+        Schedule foundSchedule = scheduleRepository.findByIdOrElseThrow(id);
+        scheduleRepository.delete(foundSchedule);
     }
 }
