@@ -38,4 +38,14 @@ public class ScheduleService {
                 .map(ScheduleResponseDto::toDto)
                 .toList();
     }
+
+    public ScheduleResponseDto findById(Long id) {
+        Schedule foundSchedule = scheduleRepository.findByIdOrElseThrow(id);
+
+        return new ScheduleResponseDto(
+                foundSchedule.getId(),
+                foundSchedule.getWriter(),
+                foundSchedule.getSchedule(),
+                foundSchedule.getDescription());
+    }
 }
