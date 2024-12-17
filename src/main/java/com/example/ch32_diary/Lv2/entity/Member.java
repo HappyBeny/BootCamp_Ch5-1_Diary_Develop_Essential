@@ -23,8 +23,7 @@ public class Member extends BaseEntity{
     public Member() {
     }
 
-    public Member(Long id, String username, String email) {
-        this.id = id;
+    public Member(String username, String email) {
         this.username = username;
         this.email = email;
     }
