@@ -12,8 +12,8 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @Slf4j
-@RestController
-@RequestMapping("/schedules")
+@RestController("scheduleControllerV2")
+@RequestMapping("/v2/schedules")
 @RequiredArgsConstructor
 public class ScheduleController {
 

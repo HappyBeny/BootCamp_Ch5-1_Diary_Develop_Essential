@@ -12,10 +12,10 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @Slf4j
-@RestController
-@RequestMapping("/schedules")
+@RestController("scheduleControllerV1")
+@RequestMapping("/v1/schedules")
 @RequiredArgsConstructor
-public class ScheduleControllerLv1 {
+public class ScheduleController {
 
     private final ScheduleService scheduleService;
 
