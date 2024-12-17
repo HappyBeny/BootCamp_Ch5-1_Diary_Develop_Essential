@@ -16,7 +16,7 @@ public class MemberController {
     private final MemberService memberService;
 
     @PostMapping("/signup")
-    public ResponseEntity<MemberResponseDto> signUp(CreateMemberRequestDto requestDto) {
+    public ResponseEntity<MemberResponseDto> signUp(@RequestBody CreateMemberRequestDto requestDto) {
 
         MemberResponseDto newMember = memberService.signUp(requestDto);
 
@@ -36,8 +36,15 @@ public class MemberController {
             @PathVariable Long id,
             @RequestBody CreateMemberRequestDto requestDto
     ) {
-        MemberResponseDto responseDto = memberService.updateUsername(id, requestDto);
+        MemberResponseDto responseDto = memberService.updateUserInfo(id, requestDto);
 
         return new ResponseEntity<>(responseDto, HttpStatus.OK);
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> deleteMember(@PathVariable Long id) {
+        memberService.delete(id);
+
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 }

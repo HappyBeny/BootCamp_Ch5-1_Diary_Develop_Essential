@@ -30,7 +30,7 @@ public class MemberService {
         return new MemberResponseDto(member.getId(), member.getUsername(), member.getEmail());
     }
 
-    public MemberResponseDto updateUsername(Long id, CreateMemberRequestDto requestDto) {
+    public MemberResponseDto updateUserInfo(Long id, CreateMemberRequestDto requestDto) {
         Member foundMember = memberRepository.findByIdOrElseThrow(id);
 
         foundMember.setUsername(requestDto.getUsername());
@@ -43,5 +43,11 @@ public class MemberService {
                 updatedMember.getUsername(),
                 updatedMember.getEmail()
         );
+    }
+
+    public void delete(Long id) {
+        Member foundMember = memberRepository.findByIdOrElseThrow(id);
+
+        memberRepository.delete(foundMember);
     }
 }
