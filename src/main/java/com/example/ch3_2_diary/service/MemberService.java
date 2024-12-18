@@ -18,8 +18,11 @@ public class MemberService {
 
     public MemberResponseDto signUp(CreateMemberRequestDto requestDto) {
 
-        Member member = new Member(requestDto.getUsername(), requestDto.getPassword(), requestDto.getEmail());
-        Member savedMember = memberRepository.save(member);
+        Member savedMember = memberRepository.save(
+                new Member(requestDto.getUsername(),
+                        requestDto.getPassword(),
+                        requestDto.getEmail())
+        );
 
         return new MemberResponseDto(savedMember.getId(), savedMember.getUsername(), savedMember.getEmail());
     }
@@ -58,13 +61,11 @@ public class MemberService {
         memberRepository.save(foundMember);
     }
 
-    public boolean validatePassword(Long id, String password) {
+    public void validatePassword(Long id, String password) {
         Member foundMember = memberRepository.findByIdOrElseThrow(id);
 
         if (!foundMember.getPassword().equals(password)) {
             throw new IllegalArgumentException("Incorrect password");
         }
-
-        return true;
     }
 }
