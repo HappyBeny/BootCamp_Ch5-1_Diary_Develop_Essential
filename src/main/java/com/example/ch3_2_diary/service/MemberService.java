@@ -1,6 +1,7 @@
 package com.example.ch3_2_diary.service;
 
 import com.example.ch3_2_diary.dto.CreateMemberRequestDto;
+import com.example.ch3_2_diary.dto.DeleteMemberRequestDto;
 import com.example.ch3_2_diary.dto.MemberResponseDto;
 import com.example.ch3_2_diary.entity.Member;
 import com.example.ch3_2_diary.repository.MemberRepository;
@@ -17,7 +18,7 @@ public class MemberService {
 
     public MemberResponseDto signUp(CreateMemberRequestDto requestDto) {
 
-        Member member = new Member(requestDto.getUsername(), requestDto.getEmail());
+        Member member = new Member(requestDto.getUsername(), requestDto.getPassword(), requestDto.getEmail());
         Member savedMember = memberRepository.save(member);
 
         return new MemberResponseDto(savedMember.getId(), savedMember.getUsername(), savedMember.getEmail());
@@ -31,6 +32,9 @@ public class MemberService {
     }
 
     public MemberResponseDto updateUserInfo(Long id, CreateMemberRequestDto requestDto) {
+
+        validatePassword(id, requestDto.getPassword());
+
         Member foundMember = memberRepository.findByIdOrElseThrow(id);
 
         foundMember.setUsername(requestDto.getUsername());
@@ -45,9 +49,22 @@ public class MemberService {
         );
     }
 
-    public void softDelete(Long id) {
+    public void softDelete(Long id, DeleteMemberRequestDto requestDto) {
+
+        validatePassword(id, requestDto.getPassword());
+
         Member foundMember = memberRepository.findByIdOrElseThrow(id);
         foundMember.setDeleted(true);
         memberRepository.save(foundMember);
+    }
+
+    public boolean validatePassword(Long id, String password) {
+        Member foundMember = memberRepository.findByIdOrElseThrow(id);
+
+        if (!foundMember.getPassword().equals(password)) {
+            throw new IllegalArgumentException("Incorrect password");
+        }
+
+        return true;
     }
 }
