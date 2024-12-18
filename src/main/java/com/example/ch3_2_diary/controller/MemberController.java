@@ -43,7 +43,7 @@ public class MemberController {
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteMember(@PathVariable Long id) {
-        memberService.delete(id);
+        memberService.softDelete(id);
 
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
