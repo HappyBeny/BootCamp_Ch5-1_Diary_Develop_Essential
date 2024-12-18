@@ -45,9 +45,9 @@ public class MemberService {
         );
     }
 
-    public void delete(Long id) {
+    public void softDelete(Long id) {
         Member foundMember = memberRepository.findByIdOrElseThrow(id);
-
-        memberRepository.delete(foundMember);
+        foundMember.setDeleted(true);
+        memberRepository.save(foundMember);
     }
 }
