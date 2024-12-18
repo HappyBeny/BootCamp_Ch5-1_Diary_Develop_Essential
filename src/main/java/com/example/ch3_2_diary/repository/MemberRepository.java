@@ -11,6 +11,20 @@ public interface MemberRepository extends JpaRepository<Member, Long> {
 
     Optional<Member> findMemberByUsername(String username);
 
+    default Member findByEmailOrElseThrow(String email) {
+        Member foundMember = findMemberByUsername(email)
+                .orElseThrow(() ->
+                        new ResponseStatusException(
+                                HttpStatus.NOT_FOUND,
+                                "Member not found"));
+
+        if (foundMember.isDeleted()) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Member is deleted, email = " + foundMember.getEmail());
+        }
+
+        return foundMember;
+    }
+
     default Member findMemberByUsernameOrElseThrow(String username) {
         Member foundMember = findMemberByUsername(username)
                 .orElseThrow(() ->
