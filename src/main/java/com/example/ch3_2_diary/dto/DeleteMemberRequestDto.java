@@ -7,6 +7,5 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class DeleteMemberRequestDto {
 
-    private final Long id;
     private final String password;
 }
