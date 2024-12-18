@@ -25,10 +25,13 @@ public class ScheduleService {
 
         log.info(":::finding Member with writer : {}", requestDto.getWriter());
         Member findMember = memberRepository.findMemberByUsernameOrElseThrow(requestDto.getWriter());
+
         Schedule schedule = new Schedule(
                 requestDto.getWriter(),
                 requestDto.getSchedule(),
                 requestDto.getDescription() != null ? requestDto.getDescription() : "");
+
+        schedule.setMember(findMember);
 
         Schedule savedSchedule = scheduleRepository.save(schedule);
 
