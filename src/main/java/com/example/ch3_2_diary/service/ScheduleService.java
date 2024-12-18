@@ -2,6 +2,7 @@ package com.example.ch3_2_diary.service;
 
 import com.example.ch3_2_diary.dto.CreateScheduleRequestDto;
 import com.example.ch3_2_diary.dto.ScheduleResponseDto;
+import com.example.ch3_2_diary.dto.UpdateScheduleRequestDto;
 import com.example.ch3_2_diary.entity.Member;
 import com.example.ch3_2_diary.entity.Schedule;
 import com.example.ch3_2_diary.repository.MemberRepository;
@@ -22,20 +23,18 @@ public class ScheduleService {
 
     public ScheduleResponseDto create(CreateScheduleRequestDto requestDto) {
 
-        log.info(":::finding Member with id : {}", requestDto.getMemberId());
+        log.info(":::finding Member with writer : {}", requestDto.getWriter());
+        Member findMember = memberRepository.findMemberByUsernameOrElseThrow(requestDto.getWriter());
+        Schedule schedule = new Schedule(
+                requestDto.getWriter(),
+                requestDto.getSchedule(),
+                requestDto.getDescription() != null ? requestDto.getDescription() : "");
 
-        memberRepository.findByIdOrElseThrow(requestDto.getMemberId());
-
-        Schedule savedSchedule = scheduleRepository.save(
-                new Schedule(
-                        requestDto.getMemberId(),
-                        requestDto.getSchedule(),
-                        requestDto.getDescription() != null ? requestDto.getDescription() : "")
-        );
+        Schedule savedSchedule = scheduleRepository.save(schedule);
 
         return new ScheduleResponseDto(
                 savedSchedule.getId(),
-                savedSchedule.getMemberId(),
+                savedSchedule.getWriter(),
                 savedSchedule.getSchedule(),
                 savedSchedule.getDescription()
         );
@@ -50,25 +49,21 @@ public class ScheduleService {
     }
 
     public ScheduleResponseDto findById(Long id) {
-        log.info("finding schedule with id : {}", id);
+        log.info("finding schedule with scheduleId : {}", id);
 
         Schedule foundSchedule = scheduleRepository.findByIdOrElseThrow(id);
 
         return new ScheduleResponseDto(
                 foundSchedule.getId(),
-                foundSchedule.getMemberId(),
+                foundSchedule.getWriter(),
                 foundSchedule.getSchedule(),
                 foundSchedule.getDescription());
     }
 
-    public ScheduleResponseDto update(Long id, CreateScheduleRequestDto requestDto){
-        log.info("finding schedule with id : {}", id);
+    public ScheduleResponseDto update(Long id, UpdateScheduleRequestDto requestDto){
+        log.info("finding schedule with scheduleId : {}", id);
         Schedule foundSchedule = scheduleRepository.findByIdOrElseThrow(id);
 
-        log.info("find member with id : {}", requestDto.getMemberId());
-        Member member = memberRepository.findByIdOrElseThrow(requestDto.getMemberId());
-
-        foundSchedule.setMemberId(requestDto.getMemberId());
         foundSchedule.setSchedule(requestDto.getSchedule());
         foundSchedule.setDescription(requestDto.getDescription());
 
@@ -76,14 +71,14 @@ public class ScheduleService {
 
         return new ScheduleResponseDto(
                 updatedSchedule.getId(),
-                updatedSchedule.getMemberId(),
+                updatedSchedule.getWriter(),
                 updatedSchedule.getSchedule(),
                 updatedSchedule.getDescription()
         );
     }
 
     public void delete(Long id) {
-        log.info("finding schedule with id : {}", id);
+        log.info("finding schedule with scheduleId : {}", id);
 
         Schedule foundSchedule = scheduleRepository.findByIdOrElseThrow(id);
         scheduleRepository.delete(foundSchedule);

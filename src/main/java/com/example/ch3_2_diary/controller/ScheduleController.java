@@ -2,6 +2,7 @@ package com.example.ch3_2_diary.controller;
 
 import com.example.ch3_2_diary.dto.CreateScheduleRequestDto;
 import com.example.ch3_2_diary.dto.ScheduleResponseDto;
+import com.example.ch3_2_diary.dto.UpdateScheduleRequestDto;
 import com.example.ch3_2_diary.service.ScheduleService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -42,7 +43,7 @@ public class ScheduleController {
 
     @PatchMapping("/{id}")
     public ResponseEntity<ScheduleResponseDto> updateSchedule(
-            @PathVariable Long id, @RequestBody CreateScheduleRequestDto requestDto
+            @PathVariable Long id, @RequestBody UpdateScheduleRequestDto requestDto
     ) {
         ScheduleResponseDto responseDto = scheduleService.update(id, requestDto);
 

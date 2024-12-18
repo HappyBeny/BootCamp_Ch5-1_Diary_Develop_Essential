@@ -7,18 +7,18 @@ import lombok.Getter;
 public class ScheduleResponseDto {
 
     private final Long id;
-    private final Long memberId;
+    private final String writer;
     private final String schedule;
     private String description;
 
-    public ScheduleResponseDto(Long id, Long memberId, String schedule, String description) {
+    public ScheduleResponseDto(Long id, String writer, String schedule, String description) {
         this.id = id;
-        this.memberId = memberId;
+        this.writer = writer;
         this.schedule = schedule;
         this.description = description;
     }
 
     public static ScheduleResponseDto toDto(Schedule schedule){
-        return new ScheduleResponseDto(schedule.getId(), schedule.getMemberId(), schedule.getSchedule(), schedule.getDescription());
+        return new ScheduleResponseDto(schedule.getId(), schedule.getWriter(), schedule.getSchedule(), schedule.getDescription());
     }
 }
