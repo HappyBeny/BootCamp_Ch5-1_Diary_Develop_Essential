@@ -17,28 +17,21 @@ public class MemberService {
     private final MemberRepository memberRepository;
 
     public MemberResponseDto signUp(CreateMemberRequestDto requestDto) {
-
         Member savedMember = memberRepository.save(
                 new Member(requestDto.getUsername(),
                         requestDto.getPassword(),
                         requestDto.getEmail())
         );
-
         return new MemberResponseDto(savedMember.getId(), savedMember.getUsername(), savedMember.getEmail());
     }
 
     public MemberResponseDto findById(Long id) {
-
         Member member = memberRepository.findByIdOrElseThrow(id);
-
         return new MemberResponseDto(member.getId(), member.getUsername(), member.getEmail());
     }
 
     public MemberResponseDto updateUserInfo(Long id, CreateMemberRequestDto requestDto) {
-
-        validatePassword(id, requestDto.getPassword());
-
-        Member foundMember = memberRepository.findByIdOrElseThrow(id);
+        Member foundMember = validatePassword(id, requestDto.getPassword());
 
         foundMember.setUsername(requestDto.getUsername());
         foundMember.setEmail(requestDto.getEmail());
@@ -53,19 +46,18 @@ public class MemberService {
     }
 
     public void softDelete(Long id, DeleteMemberRequestDto requestDto) {
+        Member foundMember = validatePassword(id, requestDto.getPassword());
 
-        validatePassword(id, requestDto.getPassword());
-
-        Member foundMember = memberRepository.findByIdOrElseThrow(id);
         foundMember.setDeleted(true);
         memberRepository.save(foundMember);
     }
 
-    public void validatePassword(Long id, String password) {
+    public Member validatePassword(Long id, String password) {
         Member foundMember = memberRepository.findByIdOrElseThrow(id);
 
         if (!foundMember.getPassword().equals(password)) {
             throw new IllegalArgumentException("Incorrect password");
         }
+        return foundMember;
     }
 }
