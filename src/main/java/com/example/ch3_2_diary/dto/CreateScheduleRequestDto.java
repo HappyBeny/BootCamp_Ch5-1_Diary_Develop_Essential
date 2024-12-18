@@ -9,8 +9,8 @@ public class CreateScheduleRequestDto {
     private final String schedule;
     private String description;
 
-    public CreateScheduleRequestDto(Long writer, String schedule, String description) {
-        this.memberId = writer;
+    public CreateScheduleRequestDto(Long memberId, String schedule, String description) {
+        this.memberId = memberId;
         this.schedule = schedule;
         this.description = description;
     }
