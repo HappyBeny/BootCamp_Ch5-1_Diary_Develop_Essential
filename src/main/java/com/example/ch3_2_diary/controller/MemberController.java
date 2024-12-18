@@ -1,6 +1,7 @@
 package com.example.ch3_2_diary.controller;
 
 import com.example.ch3_2_diary.dto.CreateMemberRequestDto;
+import com.example.ch3_2_diary.dto.DeleteMemberRequestDto;
 import com.example.ch3_2_diary.dto.MemberResponseDto;
 import com.example.ch3_2_diary.service.MemberService;
 import lombok.RequiredArgsConstructor;
@@ -32,7 +33,7 @@ public class MemberController {
     }
 
     @PatchMapping("/{id}")
-    public ResponseEntity<MemberResponseDto> updateUsername(
+    public ResponseEntity<MemberResponseDto> updateUserInfo(
             @PathVariable Long id,
             @RequestBody CreateMemberRequestDto requestDto
     ) {
@@ -42,8 +43,11 @@ public class MemberController {
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteMember(@PathVariable Long id) {
-        memberService.softDelete(id);
+    public ResponseEntity<Void> deleteMember(
+            @PathVariable Long id,
+            @RequestBody DeleteMemberRequestDto requestDto
+    ) {
+        memberService.softDelete(id, requestDto);
 
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
