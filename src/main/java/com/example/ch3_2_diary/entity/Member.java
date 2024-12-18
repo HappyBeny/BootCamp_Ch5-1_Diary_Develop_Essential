@@ -18,6 +18,9 @@ public class Member extends BaseEntity{
     private String username;
 
     @Column(nullable = false)
+    private String password;
+
+    @Column(nullable = false)
     private String email;
 
     @Column(nullable = false)
@@ -26,8 +29,9 @@ public class Member extends BaseEntity{
     public Member() {
     }
 
-    public Member(String username, String email) {
+    public Member(String username, String password, String email) {
         this.username = username;
+        this.password = password;
         this.email = email;
     }
 }
