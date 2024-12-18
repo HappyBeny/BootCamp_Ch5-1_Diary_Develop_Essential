@@ -12,21 +12,33 @@ public interface MemberRepository extends JpaRepository<Member, Long> {
     Optional<Member> findMemberByUsername(String username);
 
     default Member findMemberByUsernameOrElseThrow(String username) {
-        return findMemberByUsername(username)
+        Member foundMember = findMemberByUsername(username)
                 .orElseThrow(() ->
                         new ResponseStatusException(
                                 HttpStatus.NOT_FOUND,
                                 "Does not exist username = " + username)
                 );
+
+            if (foundMember.isDeleted()) {
+                throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Member is deleted, name = " + username);
+            }
+
+        return foundMember;
     }
 
+
     default Member findByIdOrElseThrow(Long id) {
-        return findById(id)
+        Member foundMember = findById(id)
                 .orElseThrow(() ->
                         new ResponseStatusException(
                                 HttpStatus.NOT_FOUND,
-                                "Does not exist id : " + id)
+                                "Does not exist id = " + id)
                 );
 
+        if (foundMember.isDeleted()) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Member is deleted, id = " + id);
+        }
+
+        return foundMember;
     }
 }
