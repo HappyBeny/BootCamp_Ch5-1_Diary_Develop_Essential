@@ -1,6 +1,7 @@
 package com.example.ch3_2_diary.service;
 
 import com.example.ch3_2_diary.dto.CreateScheduleRequestDto;
+import com.example.ch3_2_diary.dto.DeleteScheduleRequestDto;
 import com.example.ch3_2_diary.dto.ScheduleResponseDto;
 import com.example.ch3_2_diary.dto.UpdateScheduleRequestDto;
 import com.example.ch3_2_diary.entity.Member;
@@ -67,6 +68,9 @@ public class ScheduleService {
         log.info("finding schedule with scheduleId : {}", id);
         Schedule foundSchedule = scheduleRepository.findByIdOrElseThrow(id);
 
+        log.info("checking password : {}", requestDto.getPassword());
+        validatePassword(foundSchedule, requestDto.getPassword());
+
         foundSchedule.setSchedule(requestDto.getSchedule());
         foundSchedule.setDescription(requestDto.getDescription());
 
@@ -80,10 +84,19 @@ public class ScheduleService {
         );
     }
 
-    public void delete(Long id) {
+    public void delete(Long id, DeleteScheduleRequestDto requestDto) {
         log.info("finding schedule with scheduleId : {}", id);
-
         Schedule foundSchedule = scheduleRepository.findByIdOrElseThrow(id);
+
+        log.info("checking password : {}", requestDto.getPassword());
+        validatePassword(foundSchedule, requestDto.getPassword());
+
         scheduleRepository.delete(foundSchedule);
+    }
+
+    public void validatePassword(Schedule schedule, String password) {
+        if (!schedule.getMember().getPassword().equals(password)) {
+            throw new IllegalArgumentException("Incorrect Password");
+        }
     }
 }

@@ -5,9 +5,7 @@ import lombok.RequiredArgsConstructor;
 
 @Getter
 @RequiredArgsConstructor
-public class UpdateScheduleRequestDto {
+public class DeleteScheduleRequestDto {
 
     private final String password;
-    private final String schedule;
-    private final String description;
 }
