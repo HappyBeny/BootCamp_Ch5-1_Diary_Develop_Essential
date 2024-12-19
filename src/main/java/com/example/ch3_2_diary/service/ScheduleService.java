@@ -8,9 +8,12 @@ import com.example.ch3_2_diary.entity.Member;
 import com.example.ch3_2_diary.entity.Schedule;
 import com.example.ch3_2_diary.repository.MemberRepository;
 import com.example.ch3_2_diary.repository.ScheduleRepository;
+import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
 
@@ -64,12 +67,14 @@ public class ScheduleService {
                 foundSchedule.getDescription());
     }
 
-    public ScheduleResponseDto update(Long id, UpdateScheduleRequestDto requestDto){
+    public ScheduleResponseDto update(
+            HttpSession session,
+            Long id, UpdateScheduleRequestDto requestDto){
+
         log.info("finding schedule with scheduleId : {}", id);
         Schedule foundSchedule = scheduleRepository.findByIdOrElseThrow(id);
 
-        log.info("checking password : {}", requestDto.getPassword());
-        validatePassword(foundSchedule, requestDto.getPassword());
+        validateOwnerAndPassword(session, foundSchedule, requestDto.getPassword());
 
         foundSchedule.setSchedule(requestDto.getSchedule());
         foundSchedule.setDescription(requestDto.getDescription());
@@ -84,19 +89,28 @@ public class ScheduleService {
         );
     }
 
-    public void delete(Long id, DeleteScheduleRequestDto requestDto) {
+    public void delete(HttpSession session,
+                       Long id, DeleteScheduleRequestDto requestDto) {
+
         log.info("finding schedule with scheduleId : {}", id);
         Schedule foundSchedule = scheduleRepository.findByIdOrElseThrow(id);
 
         log.info("checking password : {}", requestDto.getPassword());
-        validatePassword(foundSchedule, requestDto.getPassword());
+        validateOwnerAndPassword(session, foundSchedule, requestDto.getPassword());
 
         scheduleRepository.delete(foundSchedule);
     }
 
-    public void validatePassword(Schedule schedule, String password) {
-        if (!schedule.getMember().getPassword().equals(password)) {
-            throw new IllegalArgumentException("Incorrect Password");
+    public void validateOwnerAndPassword(HttpSession session,Schedule schedule, String password){
+        String loggedPassword = (String) session.getAttribute("password");
+        String loggedUsername = (String) session.getAttribute("username");
+
+        if (!schedule.getWriter().equals(loggedUsername)) {
+            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "You are not the owner of this schedule");
+        }
+
+        if (!loggedPassword.equals(password)) {
+            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "Incorrect Password");
         }
     }
 }
