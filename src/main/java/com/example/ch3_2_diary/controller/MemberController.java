@@ -49,6 +49,7 @@ public class MemberController {
         // 세션 생성
         HttpSession session = request.getSession();
         session.setAttribute("username", member.getUsername());
+        session.setAttribute("password", requestDto.getPassword());
 
         // 쿠키에 세션 ID 저장
         Cookie sessionCookie = new Cookie("JSESSIONID", session.getId());
@@ -104,9 +105,10 @@ public class MemberController {
     @PatchMapping("/{id}")
     public ResponseEntity<MemberResponseDto> updateUserInfo(
             @PathVariable Long id,
-            @RequestBody UpdateUserRequestDto requestDto
+            @RequestBody UpdateUserRequestDto requestDto,
+            HttpSession session
     ) {
-        MemberResponseDto responseDto = memberService.updateUserInfo(id, requestDto);
+        MemberResponseDto responseDto = memberService.updateUserInfo(session,id, requestDto);
 
         return new ResponseEntity<>(responseDto, HttpStatus.OK);
     }
@@ -117,12 +119,13 @@ public class MemberController {
      * @param requestDto
      */
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteMember(
+    public ResponseEntity<String> deleteMember(
             @PathVariable Long id,
-            @RequestBody DeleteMemberRequestDto requestDto
+            @RequestBody DeleteMemberRequestDto requestDto,
+            HttpSession session
     ) {
-        memberService.softDelete(id, requestDto);
+        memberService.softDelete(session,id, requestDto);
 
-        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        return new ResponseEntity<>("Delete Complete",HttpStatus.OK);
     }
 }

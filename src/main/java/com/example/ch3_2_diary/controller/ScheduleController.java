@@ -78,10 +78,10 @@ public class ScheduleController {
      * @param requestDto
      */
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteSchedule(
+    public ResponseEntity<String> deleteSchedule(
             @PathVariable Long id, @RequestBody DeleteScheduleRequestDto requestDto,
             HttpSession session) {
         scheduleService.delete(session,id, requestDto);
-        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        return new ResponseEntity<>("Delete Complete",HttpStatus.OK);
     }
 }
