@@ -5,12 +5,10 @@ import lombok.Getter;
 @Getter
 public class CreateScheduleRequestDto {
 
-    private final String writer;
     private final String schedule;
     private String description;
 
-    public CreateScheduleRequestDto(String writer, String schedule, String description) {
-        this.writer = writer;
+    public CreateScheduleRequestDto(String schedule, String description) {
         this.schedule = schedule;
         this.description = description;
     }
