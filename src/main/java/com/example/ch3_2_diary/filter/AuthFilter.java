@@ -30,8 +30,9 @@ public class AuthFilter implements Filter {
 
             HttpSession session = httpRequest.getSession(false);
 
-            if (session == null || session.getAttribute("user") == null) {
+            if (session == null || session.getAttribute("username") == null) {
                 httpResponse.sendError(HttpServletResponse.SC_UNAUTHORIZED, "Unauthorized");
+                return;
             }
         }
         filterChain.doFilter(request, response);
