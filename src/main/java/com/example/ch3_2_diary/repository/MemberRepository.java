@@ -10,9 +10,10 @@ import java.util.Optional;
 public interface MemberRepository extends JpaRepository<Member, Long> {
 
     Optional<Member> findMemberByUsername(String username);
+    Optional<Member> findMemberByEmail(String email);
 
     default Member findByEmailOrElseThrow(String email) {
-        Member foundMember = findMemberByUsername(email)
+        Member foundMember = findMemberByEmail(email)
                 .orElseThrow(() ->
                         new ResponseStatusException(
                                 HttpStatus.NOT_FOUND,
