@@ -22,13 +22,13 @@ public class ScheduleService {
     private final ScheduleRepository scheduleRepository;
     private final MemberRepository memberRepository;
 
-    public ScheduleResponseDto create(CreateScheduleRequestDto requestDto) {
+    public ScheduleResponseDto create(CreateScheduleRequestDto requestDto, String username) {
 
-        log.info(":::finding Member with writer : {}", requestDto.getWriter());
-        Member findMember = memberRepository.findMemberByUsernameOrElseThrow(requestDto.getWriter());
+        log.info("Attempting to find Member with username: {}", username);
+        Member findMember = memberRepository.findMemberByUsernameOrElseThrow(username);
 
         Schedule schedule = new Schedule(
-                requestDto.getWriter(),
+                username,
                 requestDto.getSchedule(),
                 requestDto.getDescription() != null ? requestDto.getDescription() : "");
 

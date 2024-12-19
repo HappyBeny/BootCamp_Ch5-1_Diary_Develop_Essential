@@ -5,6 +5,8 @@ import com.example.ch3_2_diary.dto.DeleteScheduleRequestDto;
 import com.example.ch3_2_diary.dto.ScheduleResponseDto;
 import com.example.ch3_2_diary.dto.UpdateScheduleRequestDto;
 import com.example.ch3_2_diary.service.ScheduleService;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
@@ -24,12 +26,16 @@ public class ScheduleController {
     /**
      * 게시물 생성
      * @param requestDto
-     * @param request
      */
     @PostMapping
-    public ResponseEntity<ScheduleResponseDto> save(@RequestBody CreateScheduleRequestDto requestDto) {
+    public ResponseEntity<ScheduleResponseDto> save(
+            @RequestBody CreateScheduleRequestDto requestDto,
+            HttpServletRequest request) {
 
-        ScheduleResponseDto responseDto = scheduleService.create(requestDto);
+        HttpSession session = request.getSession(false);
+        String username = (String) session.getAttribute("username");
+
+        ScheduleResponseDto responseDto = scheduleService.create(requestDto, username);
         return new ResponseEntity<>(responseDto, HttpStatus.CREATED);
     }
 
