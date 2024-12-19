@@ -5,16 +5,14 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.http.HttpStatus;
 import org.springframework.util.PatternMatchUtils;
-import org.springframework.web.server.ResponseStatusException;
 
 import java.io.IOException;
 
 @Slf4j
 public class AuthFilter implements Filter {
 
-    private static final String[] WHITE_LIST = {"/", "/members/signup", "/member/login"};
+    private static final String[] WHITE_LIST = {"/", "/members/signup", "/members/login"};
 
     @Override
     public void doFilter(
@@ -33,7 +31,7 @@ public class AuthFilter implements Filter {
             HttpSession session = httpRequest.getSession(false);
 
             if (session == null || session.getAttribute("user") == null) {
-                throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "인증되지 않은 사용자입니다.");
+                httpResponse.sendError(HttpServletResponse.SC_UNAUTHORIZED, "Unauthorized");
             }
         }
         filterChain.doFilter(request, response);
