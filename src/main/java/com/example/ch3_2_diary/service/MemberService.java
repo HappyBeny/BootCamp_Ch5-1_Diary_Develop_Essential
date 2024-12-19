@@ -3,6 +3,7 @@ package com.example.ch3_2_diary.service;
 import com.example.ch3_2_diary.dto.*;
 import com.example.ch3_2_diary.entity.Member;
 import com.example.ch3_2_diary.repository.MemberRepository;
+import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
@@ -59,11 +60,16 @@ public class MemberService {
      * @param id
      * @param requestDto
      */
-    public MemberResponseDto updateUserInfo(Long id, UpdateUserRequestDto requestDto) {
-        Member foundMember = validatePassword(id, requestDto.getPassword());
+    public MemberResponseDto updateUserInfo(
+            HttpSession session, Long id, UpdateUserRequestDto requestDto) {
+        Member foundMember = memberRepository.findByIdOrElseThrow(id);
+
+        validateOwnerAndPassword(session, foundMember, requestDto.getOldPassword());
 
         foundMember.setUsername(requestDto.getUsername());
-        foundMember.setPassword(requestDto.getPassword());
+        if (requestDto.getNewPassword() != null) {
+            foundMember.setPassword(requestDto.getNewPassword());
+        }
 
         Member updatedMember = memberRepository.save(foundMember);
 
@@ -79,8 +85,10 @@ public class MemberService {
      * @param id
      * @param requestDto
      */
-    public void softDelete(Long id, DeleteMemberRequestDto requestDto) {
-        Member foundMember = validatePassword(id, requestDto.getPassword());
+    public void softDelete(HttpSession session, Long id, DeleteMemberRequestDto requestDto) {
+        Member foundMember = memberRepository.findByIdOrElseThrow(id);
+
+        validateOwnerAndPassword(session, foundMember, requestDto.getPassword());
 
         foundMember.setDeleted(true);
         memberRepository.save(foundMember);
@@ -91,12 +99,16 @@ public class MemberService {
      * @param id
      * @param password
      */
-    public Member validatePassword(Long id, String password) {
-        Member foundMember = memberRepository.findByIdOrElseThrow(id);
+    public void validateOwnerAndPassword(HttpSession session, Member member, String password){
+        String loggedPassword = (String) session.getAttribute("password");
+        String loggedUsername = (String) session.getAttribute("username");
 
-        if (!foundMember.getPassword().equals(password)) {
-            throw new IllegalArgumentException("Incorrect password");
+        if (!member.getUsername().equals(loggedUsername)) {
+            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "You are not the owner of this account");
         }
-        return foundMember;
+
+        if (!loggedPassword.equals(password)) {
+            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "Incorrect Password");
+        }
     }
 }
