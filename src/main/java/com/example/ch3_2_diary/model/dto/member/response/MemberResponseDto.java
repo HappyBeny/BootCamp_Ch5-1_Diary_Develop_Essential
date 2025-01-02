@@ -1,6 +1,6 @@
-package com.example.ch3_2_diary.dto;
+package com.example.ch3_2_diary.model.dto.member.response;
 
-import com.example.ch3_2_diary.entity.Member;
+import com.example.ch3_2_diary.model.entity.Member;
 import lombok.Getter;
 
 @Getter

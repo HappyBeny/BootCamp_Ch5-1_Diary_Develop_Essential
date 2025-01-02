@@ -1,9 +1,9 @@
 package com.example.ch3_2_diary.controller;
 
-import com.example.ch3_2_diary.dto.CreateScheduleRequestDto;
-import com.example.ch3_2_diary.dto.DeleteScheduleRequestDto;
-import com.example.ch3_2_diary.dto.ScheduleResponseDto;
-import com.example.ch3_2_diary.dto.UpdateScheduleRequestDto;
+import com.example.ch3_2_diary.model.dto.schedule.request.CreateScheduleRequestDto;
+import com.example.ch3_2_diary.model.dto.schedule.request.DeleteScheduleRequestDto;
+import com.example.ch3_2_diary.model.dto.schedule.response.ScheduleResponseDto;
+import com.example.ch3_2_diary.model.dto.schedule.request.UpdateScheduleRequestDto;
 import com.example.ch3_2_diary.service.ScheduleService;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;

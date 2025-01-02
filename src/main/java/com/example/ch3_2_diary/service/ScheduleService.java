@@ -1,11 +1,11 @@
 package com.example.ch3_2_diary.service;
 
-import com.example.ch3_2_diary.dto.CreateScheduleRequestDto;
-import com.example.ch3_2_diary.dto.DeleteScheduleRequestDto;
-import com.example.ch3_2_diary.dto.ScheduleResponseDto;
-import com.example.ch3_2_diary.dto.UpdateScheduleRequestDto;
-import com.example.ch3_2_diary.entity.Member;
-import com.example.ch3_2_diary.entity.Schedule;
+import com.example.ch3_2_diary.model.dto.schedule.request.CreateScheduleRequestDto;
+import com.example.ch3_2_diary.model.dto.schedule.request.DeleteScheduleRequestDto;
+import com.example.ch3_2_diary.model.dto.schedule.response.ScheduleResponseDto;
+import com.example.ch3_2_diary.model.dto.schedule.request.UpdateScheduleRequestDto;
+import com.example.ch3_2_diary.model.entity.Member;
+import com.example.ch3_2_diary.model.entity.Schedule;
 import com.example.ch3_2_diary.repository.MemberRepository;
 import com.example.ch3_2_diary.repository.ScheduleRepository;
 import jakarta.servlet.http.HttpSession;

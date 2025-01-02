@@ -1,4 +1,4 @@
-package com.example.ch3_2_diary.entity;
+package com.example.ch3_2_diary.model.entity;
 
 import jakarta.persistence.*;
 import lombok.Getter;

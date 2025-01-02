@@ -1,4 +1,4 @@
-package com.example.ch3_2_diary.dto;
+package com.example.ch3_2_diary.model.dto.member.request;
 
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;

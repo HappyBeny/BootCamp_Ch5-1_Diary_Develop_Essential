@@ -1,6 +1,6 @@
-package com.example.ch3_2_diary.dto;
+package com.example.ch3_2_diary.model.dto.schedule.response;
 
-import com.example.ch3_2_diary.entity.Schedule;
+import com.example.ch3_2_diary.model.entity.Schedule;
 import lombok.Getter;
 
 @Getter

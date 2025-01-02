@@ -1,6 +1,10 @@
 package com.example.ch3_2_diary.controller;
 
-import com.example.ch3_2_diary.dto.*;
+import com.example.ch3_2_diary.model.dto.member.request.CreateMemberRequestDto;
+import com.example.ch3_2_diary.model.dto.member.request.DeleteMemberRequestDto;
+import com.example.ch3_2_diary.model.dto.member.request.LoginRequestDto;
+import com.example.ch3_2_diary.model.dto.member.request.UpdateUserRequestDto;
+import com.example.ch3_2_diary.model.dto.member.response.MemberResponseDto;
 import com.example.ch3_2_diary.service.MemberService;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;

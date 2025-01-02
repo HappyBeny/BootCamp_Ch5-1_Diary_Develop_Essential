@@ -1,6 +1,6 @@
-package com.example.ch3_2_diary.config;
+package com.example.ch3_2_diary.common.config;
 
-import com.example.ch3_2_diary.filter.AuthFilter;
+import com.example.ch3_2_diary.common.filter.AuthFilter;
 import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

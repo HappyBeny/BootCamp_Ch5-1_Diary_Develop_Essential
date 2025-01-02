@@ -1,4 +1,4 @@
-package com.example.ch3_2_diary.filter;
+package com.example.ch3_2_diary.common.filter;
 
 import jakarta.servlet.*;
 import jakarta.servlet.http.HttpServletRequest;

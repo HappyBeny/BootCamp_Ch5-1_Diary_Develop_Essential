@@ -1,7 +1,11 @@
 package com.example.ch3_2_diary.service;
 
-import com.example.ch3_2_diary.dto.*;
-import com.example.ch3_2_diary.entity.Member;
+import com.example.ch3_2_diary.model.dto.member.request.CreateMemberRequestDto;
+import com.example.ch3_2_diary.model.dto.member.request.DeleteMemberRequestDto;
+import com.example.ch3_2_diary.model.dto.member.request.LoginRequestDto;
+import com.example.ch3_2_diary.model.dto.member.request.UpdateUserRequestDto;
+import com.example.ch3_2_diary.model.dto.member.response.MemberResponseDto;
+import com.example.ch3_2_diary.model.entity.Member;
 import com.example.ch3_2_diary.repository.MemberRepository;
 import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
