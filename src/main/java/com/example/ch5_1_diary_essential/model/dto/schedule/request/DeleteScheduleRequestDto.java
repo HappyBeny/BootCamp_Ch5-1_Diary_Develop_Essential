@@ -1,11 +1,13 @@
 package com.example.ch5_1_diary_essential.model.dto.schedule.request;
 
+import jakarta.validation.constraints.NotBlank;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
-import lombok.RequiredArgsConstructor;
 
 @Getter
-@RequiredArgsConstructor
+@AllArgsConstructor
 public class DeleteScheduleRequestDto {
 
-    private final String password;
+    @NotBlank(message = "비밀번호를 입력해주세요")
+    private String password;
 }
