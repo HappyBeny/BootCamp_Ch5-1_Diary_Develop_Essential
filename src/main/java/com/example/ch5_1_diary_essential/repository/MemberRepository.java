@@ -1,9 +1,8 @@
 package com.example.ch5_1_diary_essential.repository;
 
+import com.example.ch5_1_diary_essential.common.exception.MemberNotFoundException;
 import com.example.ch5_1_diary_essential.model.entity.Member;
 import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.http.HttpStatus;
-import org.springframework.web.server.ResponseStatusException;
 
 import java.util.Optional;
 
@@ -15,12 +14,10 @@ public interface MemberRepository extends JpaRepository<Member, Long> {
     default Member findByEmailOrElseThrow(String email) {
         Member foundMember = findMemberByEmail(email)
                 .orElseThrow(() ->
-                        new ResponseStatusException(
-                                HttpStatus.NOT_FOUND,
-                                "Member not found"));
+                        new MemberNotFoundException(""));
 
         if (foundMember.isDeleted()) {
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Member is deleted, email = " + foundMember.getEmail());
+            throw new MemberNotFoundException("deleted");
         }
 
         return foundMember;
@@ -29,13 +26,10 @@ public interface MemberRepository extends JpaRepository<Member, Long> {
     default Member findMemberByUsernameOrElseThrow(String username) {
         Member foundMember = findMemberByUsername(username)
                 .orElseThrow(() ->
-                        new ResponseStatusException(
-                                HttpStatus.NOT_FOUND,
-                                "Does not exist username = " + username)
-                );
+                        new MemberNotFoundException(""));
 
             if (foundMember.isDeleted()) {
-                throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Member is deleted, name = " + username);
+                throw new MemberNotFoundException("deleted");
             }
 
         return foundMember;
@@ -45,13 +39,10 @@ public interface MemberRepository extends JpaRepository<Member, Long> {
     default Member findByIdOrElseThrow(Long id) {
         Member foundMember = findById(id)
                 .orElseThrow(() ->
-                        new ResponseStatusException(
-                                HttpStatus.NOT_FOUND,
-                                "Does not exist id = " + id)
-                );
+                        new MemberNotFoundException(""));
 
         if (foundMember.isDeleted()) {
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Member is deleted, id = " + id);
+            throw new MemberNotFoundException("deleted");
         }
 
         return foundMember;
