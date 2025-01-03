@@ -1,5 +1,6 @@
 package com.example.ch5_1_diary_essential.service;
 
+import com.example.ch5_1_diary_essential.common.exception.NotAuthorizedException;
 import com.example.ch5_1_diary_essential.model.dto.member.request.CreateMemberRequestDto;
 import com.example.ch5_1_diary_essential.model.dto.member.request.DeleteMemberRequestDto;
 import com.example.ch5_1_diary_essential.model.dto.member.request.LoginRequestDto;
@@ -23,7 +24,6 @@ public class MemberService {
 
     /**
      * 회원 가입
-     * @param requestDto
      */
     public MemberResponseDto signUp(CreateMemberRequestDto requestDto) {
         Member savedMember = memberRepository.save(
@@ -36,7 +36,6 @@ public class MemberService {
 
     /**
      * 로그인
-     * @param requestDto
      */
     public MemberResponseDto login(LoginRequestDto requestDto) {
         Member member = memberRepository.findByEmailOrElseThrow(requestDto.getEmail());
@@ -52,7 +51,6 @@ public class MemberService {
 
     /**
      * 회원 조회
-     * @param id
      */
     public MemberResponseDto findById(Long id) {
         Member member = memberRepository.findByIdOrElseThrow(id);
@@ -61,19 +59,13 @@ public class MemberService {
 
     /**
      * 유저 정보 수정
-     * @param id
-     * @param requestDto
      */
     public MemberResponseDto updateUserInfo(
             HttpSession session, Long id, UpdateUserRequestDto requestDto) {
         Member foundMember = memberRepository.findByIdOrElseThrow(id);
 
-        validateOwnerAndPassword(session, foundMember, requestDto.getOldPassword());
-
-        foundMember.setUsername(requestDto.getUsername());
-        if (requestDto.getNewPassword() != null) {
-            foundMember.setPassword(requestDto.getNewPassword());
-        }
+        validateOwnerAndPassword(session,foundMember, requestDto.getOldPassword());
+        foundMember.updateInfo(requestDto);
 
         Member updatedMember = memberRepository.save(foundMember);
 
@@ -85,34 +77,27 @@ public class MemberService {
     }
 
     /**
-     * 소프트 딜리트
-     * @param id
-     * @param requestDto
+     * 유저 삭제(소프트 딜리트)
      */
     public void softDelete(HttpSession session, Long id, DeleteMemberRequestDto requestDto) {
         Member foundMember = memberRepository.findByIdOrElseThrow(id);
 
         validateOwnerAndPassword(session, foundMember, requestDto.getPassword());
+        foundMember.softDelete();
 
-        foundMember.setDeleted(true);
         memberRepository.save(foundMember);
     }
 
     /**
-     * 비밀번호 검증 메서드
-     * @param id
-     * @param password
+     * 계정 소유/비밀번호 검증
      */
-    public void validateOwnerAndPassword(HttpSession session, Member member, String password){
-        String loggedPassword = (String) session.getAttribute("password");
+    public void validateOwnerAndPassword(HttpSession session, Member member, String password) {
         String loggedUsername = (String) session.getAttribute("username");
 
-        if (!member.getUsername().equals(loggedUsername)) {
-            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "You are not the owner of this account");
+        if (!loggedUsername.equals(member.getUsername())) {
+            throw new NotAuthorizedException("account");
         }
 
-        if (!loggedPassword.equals(password)) {
-            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "Incorrect Password");
-        }
+        member.validatePassword(password);
     }
 }
