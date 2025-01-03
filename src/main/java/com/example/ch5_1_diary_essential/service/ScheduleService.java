@@ -1,9 +1,10 @@
 package com.example.ch5_1_diary_essential.service;
 
+import com.example.ch5_1_diary_essential.common.exception.NotAuthorizedException;
 import com.example.ch5_1_diary_essential.model.dto.schedule.request.CreateScheduleRequestDto;
 import com.example.ch5_1_diary_essential.model.dto.schedule.request.DeleteScheduleRequestDto;
-import com.example.ch5_1_diary_essential.model.dto.schedule.response.ScheduleResponseDto;
 import com.example.ch5_1_diary_essential.model.dto.schedule.request.UpdateScheduleRequestDto;
+import com.example.ch5_1_diary_essential.model.dto.schedule.response.ScheduleResponseDto;
 import com.example.ch5_1_diary_essential.model.entity.Member;
 import com.example.ch5_1_diary_essential.model.entity.Schedule;
 import com.example.ch5_1_diary_essential.repository.MemberRepository;
@@ -11,9 +12,7 @@ import com.example.ch5_1_diary_essential.repository.ScheduleRepository;
 import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
-import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
 
@@ -76,8 +75,7 @@ public class ScheduleService {
 
         validateOwnerAndPassword(session, foundSchedule, requestDto.getPassword());
 
-        foundSchedule.setSchedule(requestDto.getSchedule());
-        foundSchedule.setDescription(requestDto.getDescription());
+        foundSchedule.updateSchedule(requestDto);
 
         Schedule updatedSchedule = scheduleRepository.save(foundSchedule);
 
@@ -102,15 +100,13 @@ public class ScheduleService {
     }
 
     public void validateOwnerAndPassword(HttpSession session,Schedule schedule, String password){
-        String loggedPassword = (String) session.getAttribute("password");
         String loggedUsername = (String) session.getAttribute("username");
+        Member foundMember = memberRepository.findMemberByUsername(loggedUsername).orElseThrow();
 
         if (!schedule.getWriter().equals(loggedUsername)) {
-            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "You are not the owner of this schedule");
+            throw new NotAuthorizedException("schedule");
         }
 
-        if (!loggedPassword.equals(password)) {
-            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "Incorrect Password");
-        }
+        foundMember.validatePassword(password);
     }
 }

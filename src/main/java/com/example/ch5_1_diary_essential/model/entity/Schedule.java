@@ -1,5 +1,6 @@
 package com.example.ch5_1_diary_essential.model.entity;
 
+import com.example.ch5_1_diary_essential.model.dto.schedule.request.UpdateScheduleRequestDto;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
@@ -34,5 +35,10 @@ public class Schedule extends BaseEntity{
         this.writer = writer;
         this.schedule = schedule;
         this.description = description;
+    }
+
+    public void updateSchedule(UpdateScheduleRequestDto requestDto) {
+        this.schedule = requestDto.getSchedule();
+        this.description = requestDto.getDescription();
     }
 }
