@@ -19,7 +19,7 @@ public class GlobalExceptionHandler {
      * 예외 발생 시 message에 id/schedule 담아서 그에 따라 판단하게끔 함.
      */
     @ExceptionHandler(NotAuthorizedException.class)
-    public ResponseEntity<Map<String, String>> handleIDNotAuthorizedException(NotAuthorizedException e) {
+    public ResponseEntity<Map<String, String>> handleNotAuthorizedException(NotAuthorizedException e) {
 
         return createMessageResponseEntity(
                 HttpStatus.UNAUTHORIZED, "You are not the owner of this " + e.getMessage()
