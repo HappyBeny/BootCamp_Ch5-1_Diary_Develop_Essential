@@ -21,19 +21,18 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(NotAuthorizedException.class)
     public ResponseEntity<Map<String, String>> handleNotAuthorizedException(NotAuthorizedException e) {
 
-        return createMessageResponseEntity(
-                HttpStatus.UNAUTHORIZED, "You are not the owner of this " + e.getMessage()
-        );
+        return createMessageResponseEntity(HttpStatus.UNAUTHORIZED, "You are not the owner of this " + e.getMessage());
     }
 
     /**
      * 삭제된 유저의 정보에 접근하는 경우에 대한 예외 래핑
      */
-    @ExceptionHandler(DeletedUserException.class)
-    public ResponseEntity<Map<String, String>> handleDeletedUserException(DeletedUserException e) {
-        return createMessageResponseEntity(
-                HttpStatus.NOT_FOUND, "this user is deleted already"
-        );
+    @ExceptionHandler(MemberNotFoundException.class)
+    public ResponseEntity<Map<String, String>> handleMemberNotFoundException(MemberNotFoundException e) {
+        if (e.getMessage().equals("deleted")) {
+            return createMessageResponseEntity(HttpStatus.NOT_FOUND, "this user is deleted already");
+        }
+        return createMessageResponseEntity(HttpStatus.NOT_FOUND, "this user is not exist");
     }
 
     /**
@@ -41,9 +40,7 @@ public class GlobalExceptionHandler {
      */
     @ExceptionHandler(ResponseStatusException.class)
     public ResponseEntity<Map<String, String>> handleResponseStatusException(ResponseStatusException e) {
-        return createMessageResponseEntity(
-                HttpStatus.BAD_REQUEST, "incorrect password"
-        );
+        return createMessageResponseEntity(HttpStatus.BAD_REQUEST, "incorrect password");
     }
 
     /**
